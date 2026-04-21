@@ -4,6 +4,10 @@
 
 The backend parses Strategy and Implementation text, runs constrained drift analysis, validates structured output, computes a score, suggests routing, and logs human feedback.
 
+## Live URL
+
+- Backend: https://driftanalyer.onrender.com/
+
 ## Stack
 
 - FastAPI

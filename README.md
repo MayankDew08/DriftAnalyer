@@ -2,6 +2,11 @@
 
 A human-directed reliability prototype that checks whether an Implementation output drifts from a Strategy output.
 
+## Live Deployment
+
+- Frontend: https://drift-analyer.vercel.app/
+- Backend: https://driftanalyer.onrender.com/
+
 ## What This Project Does
 
 The system compares two labeled text blocks:

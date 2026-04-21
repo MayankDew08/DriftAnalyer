@@ -8,6 +8,11 @@ The frontend provides a practical UI for:
 - submitting human confirmation feedback
 - exploring history and charts
 
+## Live URL
+
+- Frontend: https://drift-analyer.vercel.app/
+- Backend API: https://driftanalyer.onrender.com/
+
 ## Stack
 
 - React 18
@@ -29,8 +34,8 @@ npm run preview
 ## API Integration
 
 Vite dev proxy is configured in `vite.config.js`:
-- requests to `/api/*` are proxied to `http://localhost:8000`
-- `/api` prefix is stripped before forwarding
+- local API requests are sent to backend routes such as `/health`, `/history`, and `/analyze`
+- in production, set `VITE_API_BASE_URL` to your backend URL (for this project: `https://driftanalyer.onrender.com`)
 
 ## LLM Decision Transparency (UI)
 
