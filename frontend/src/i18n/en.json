@@ -1,9 +1,148 @@
 {
+  "header": {
+    "title": "Drift Analyzer",
+    "subtitle": "UtenaOS",
+    "health_ok": "Backend connected",
+    "health_fail": "Backend unreachable",
+    "history_button": "History"
+  },
+
+  "input_panel": {
+    "strategy_label": "STRATEGY OUTPUT",
+    "strategy_placeholder": "Paste your strategy output here.\n\nExpected format:\nIntent: ...\nScope: ...\nPriorities:\n  1. ...\n  2. ...\nConstraints:\n  - ...\n  - ...",
+    "strategy_hint": "Include Intent, Scope, Priorities, and Constraints labels.",
+    "implementation_label": "IMPLEMENTATION OUTPUT",
+    "implementation_placeholder": "Paste your implementation output here.\n\nExpected format:\nContent: ...\nExplanation: ...",
+    "implementation_hint": "Include Content and Explanation labels.",
+    "analyze_button": "Analyze",
+    "analyzing_button": "Analyzing...",
+    "clear_button": "Clear",
+    "error_format": "Input format error — make sure your text includes the correct labels.",
+    "error_server": "Analysis failed. The drift engine encountered an error.",
+    "error_network": "Could not reach the backend. Check that the server is running.",
+    "error_unknown": "Something went wrong. Please try again."
+  },
+
+  "drift_report": {
+    "title": "DRIFT ANALYSIS RESULT",
+    "empty_title": "No Analysis Yet",
+    "empty_subtitle": "Paste your inputs and click Analyze",
+    "loading": "Running drift analysis...",
+    "score_label": "Overall Drift Score",
+    "score_aligned": "Aligned",
+    "score_minor": "Minor Drift",
+    "score_significant": "Significant Drift",
+    "summary_label": "SUMMARY",
+    "detected_count": "Drift detected in {{count}} of 5 categories"
+  },
+
+  "drift_card": {
+    "severity_high": "High",
+    "severity_medium": "Medium",
+    "severity_low": "Low",
+    "severity_none": "None",
+    "reason_label": "Reason",
+    "evidence_label": "Evidence",
+    "no_evidence": "No evidence of drift.",
+    "expand": "Show details",
+    "collapse": "Hide details"
+  },
+
+  "status_badge": {
+    "accept": "Accept",
+    "revise_impl": "Revise → Implementation",
+    "revise_strategy": "Revise → Strategy"
+  },
+
+  "human_confirmation": {
+    "title": "HUMAN REVIEW",
+    "question": "Does this analysis match your judgment?",
+    "verdict_yes": "Yes",
+    "verdict_no": "No",
+    "verdict_partially": "Partially",
+    "notes_label": "What did the machine miss?",
+    "notes_placeholder": "Describe what the machine got wrong or missed...",
+    "disagreement_label": "Disagreement type",
+    "false_positive": "False Positive",
+    "false_negative": "False Negative",
+    "wrong_category": "Wrong Category",
+    "submit_button": "Submit Feedback",
+    "submitting_button": "Submitting...",
+    "success_title": "Feedback recorded. Thank you.",
+    "success_id": "Analysis ID: {{id}}",
+    "empty_state": "Run an analysis first",
+    "error_404": "Could not submit feedback — analysis session expired.",
+    "error_unknown": "Something went wrong. Please try again.",
+    "requires_disagreement": "Please select a disagreement type."
+  },
+
+  "history_panel": {
+    "title": "ANALYSIS HISTORY",
+    "close": "Close",
+    "stats_total": "{{count}} analyses",
+    "stats_drift": "{{count}} with drift",
+    "stats_feedback": "{{count}} with feedback",
+    "records_title": "RECORDS",
+    "no_feedback": "No feedback yet",
+    "feedback_yes": "Feedback: Yes ✓",
+    "feedback_no": "Feedback: No ✗",
+    "feedback_partially": "Feedback: Partially ~",
+    "view_record": "View Full Record →",
+    "no_drift_detected": "No drift detected",
+    "drift_in": "Drift in: {{categories}}",
+    "not_enough_data": "Not enough data yet",
+    "no_data": "No data yet",
+    "no_drift_yet": "No drift detected yet"
+  },
+
   "charts": {
+    "timeline_title": "Drift Score Over Time",
+    "category_title": "Most Frequent Drift Categories",
+    "severity_title": "Severity Distribution",
     "detection_title": "Drift Detection Rate",
+    "tooltip_score": "Score: {{score}}",
+    "tooltip_detected": "Detected {{count}} times",
+    "tooltip_flags": "{{severity}} — {{count}} flags",
     "detection_drift": "Drift Detected",
     "detection_clean": "No Drift (Aligned)",
     "detection_tooltip": "{{name}} — {{count}} inputs",
+    "total_flags": "Total Flags",
+    "aligned_label": "Aligned",
+    "significant_label": "Significant",
+    "not_enough_data": "Not enough data yet",
+    "no_data": "No data yet",
+    "no_drift_yet": "No drift detected yet",
     "detection_no_data": "No data yet"
+  },
+
+  "history_detail": {
+    "title": "ANALYSIS RECORD",
+    "id_label": "ID: {{id}}",
+    "strategy_section": "STRATEGY INPUT",
+    "intent_label": "Intent",
+    "scope_label": "Scope",
+    "priorities_label": "Priorities",
+    "constraints_label": "Constraints",
+    "implementation_section": "IMPLEMENTATION INPUT",
+    "content_label": "Content",
+    "explanation_label": "Explanation",
+    "analysis_section": "DRIFT ANALYSIS",
+    "feedback_section": "HUMAN FEEDBACK",
+    "no_feedback": "No feedback submitted for this analysis.",
+    "verdict_label": "Verdict",
+    "disagreement_label": "Disagreement Type",
+    "notes_label": "Notes",
+    "submitted_label": "Submitted at",
+    "close": "Close",
+    "category_scope": "Scope Violation",
+    "category_constraint": "Constraint Violation",
+    "category_priority": "Priority Misalignment",
+    "category_intent": "Intent Drift",
+    "category_inconsistency": "Internal Inconsistency",
+    "llm_language_note": "Analysis content is generated by AI in English"
+  },
+
+  "language_toggle": {
+    "label": "Language"
   }
 }

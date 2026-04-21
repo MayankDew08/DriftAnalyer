@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import DriftCard from "./DriftCard";
 import ScoreBar from "./ScoreBar";
 import StatusBadge from "./StatusBadge";
@@ -47,6 +48,8 @@ function verdictClass(verdict) {
 }
 
 export default function HistoryDetailModal({ entry, onClose }) {
+  const { t, i18n } = useTranslation();
+
   useEffect(() => {
     if (!entry) return undefined;
 
@@ -78,9 +81,9 @@ export default function HistoryDetailModal({ entry, onClose }) {
         <header className="border-b border-navy-700 px-5 py-4">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-100">Analysis Record</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-100">{t("history_detail.title")}</h2>
               <p className="mt-1 text-xs text-slate-400">
-                {formatTimestamp(entry.timestamp)} • ID: {entry.id}
+                {formatTimestamp(entry.timestamp)} • {t("history_detail.id_label", { id: entry.id.slice(0, 8) })}
               </p>
             </div>
             <button
@@ -88,26 +91,26 @@ export default function HistoryDetailModal({ entry, onClose }) {
               onClick={onClose}
               className="rounded-md border border-navy-700 px-2 py-1 text-sm text-slate-300 hover:border-slate-500"
             >
-              ✕ Close
+              ✕ {t("history_detail.close")}
             </button>
           </div>
         </header>
 
         <div className="flex-1 space-y-5 overflow-y-auto p-5">
           <section>
-            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">Strategy Input</h3>
+            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">{t("history_detail.strategy_section")}</h3>
             <div className="rounded-lg border border-navy-700 bg-navy-900 p-4 text-sm text-slate-200">
-              <p className="font-semibold text-slate-100">Intent:</p>
+              <p className="font-semibold text-slate-100">{t("history_detail.intent_label")}:</p>
               <p className="mb-3 mt-1">{parsedStrategy.intent || "-"}</p>
-              <p className="font-semibold text-slate-100">Scope:</p>
+              <p className="font-semibold text-slate-100">{t("history_detail.scope_label")}:</p>
               <p className="mb-3 mt-1">{parsedStrategy.scope || "-"}</p>
-              <p className="font-semibold text-slate-100">Priorities:</p>
+              <p className="font-semibold text-slate-100">{t("history_detail.priorities_label")}:</p>
               <ol className="mb-3 mt-1 list-decimal pl-5">
                 {(parsedStrategy.priorities || []).map((item, index) => (
                   <li key={`${item}-${index}`}>{item}</li>
                 ))}
               </ol>
-              <p className="font-semibold text-slate-100">Constraints:</p>
+              <p className="font-semibold text-slate-100">{t("history_detail.constraints_label")}:</p>
               <ul className="mt-1 list-disc pl-5">
                 {(parsedStrategy.constraints || []).map((item, index) => (
                   <li key={`${item}-${index}`}>{item}</li>
@@ -117,13 +120,13 @@ export default function HistoryDetailModal({ entry, onClose }) {
           </section>
 
           <section>
-            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">Implementation Input</h3>
+            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">{t("history_detail.implementation_section")}</h3>
             <div className="rounded-lg border border-navy-700 bg-navy-900 p-4 text-sm text-slate-200">
               {implementation.parsed ? (
                 <>
-                  <p className="font-semibold text-slate-100">Content:</p>
+                  <p className="font-semibold text-slate-100">{t("history_detail.content_label")}:</p>
                   <p className="mb-3 mt-1 whitespace-pre-wrap">{implementation.content || "-"}</p>
-                  <p className="font-semibold text-slate-100">Explanation:</p>
+                  <p className="font-semibold text-slate-100">{t("history_detail.explanation_label")}:</p>
                   <p className="mt-1 whitespace-pre-wrap">{implementation.explanation || "-"}</p>
                 </>
               ) : (
@@ -135,9 +138,11 @@ export default function HistoryDetailModal({ entry, onClose }) {
           </section>
 
           <section>
-            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">Drift Analysis</h3>
+            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">{t("history_detail.analysis_section")}</h3>
             <div className="rounded-lg border border-navy-700 bg-navy-900 p-4">
-              <p className="mb-2 text-sm text-slate-200">Overall Score: {Number(analysis.overall_drift_score || 0).toFixed(2)}</p>
+              <p className="mb-2 text-sm text-slate-200">
+                {t("drift_report.score_label")}: {Number(analysis.overall_drift_score || 0).toFixed(2)}
+              </p>
               <ScoreBar score={analysis.overall_drift_score || 0} />
               <div className="mt-4">
                 <StatusBadge routing={analysis.suggested_routing || "-"} />
@@ -149,31 +154,42 @@ export default function HistoryDetailModal({ entry, onClose }) {
               ))}
             </div>
             <div className="mt-3 rounded-lg border border-navy-700 bg-navy-900 p-4 text-sm text-slate-200">
-              <p className="mb-2 text-xs uppercase tracking-widest text-slate-400">Summary</p>
+              <p className="mb-2 text-xs uppercase tracking-widest text-slate-400">{t("drift_report.summary_label")}</p>
               {summary || "-"}
             </div>
+            {i18n.language.startsWith("ja") && (
+              <p className="mt-3 border-t border-navy-700 pt-3 text-xs text-slate-500">
+                {t("history_detail.llm_language_note")}
+              </p>
+            )}
           </section>
 
           <section>
-            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">Human Feedback</h3>
+            <h3 className="mb-2 text-xs uppercase tracking-widest text-slate-400">{t("history_detail.feedback_section")}</h3>
             <div className="rounded-lg border border-navy-700 bg-navy-900 p-4 text-sm text-slate-200">
               {!feedback ? (
-                <p className="text-slate-400">No feedback submitted for this analysis.</p>
+                <p className="text-slate-400">{t("history_detail.no_feedback")}</p>
               ) : (
                 <div className="space-y-2">
                   <p>
-                    Verdict:{" "}
+                    {t("history_detail.verdict_label")}: {" "}
                     <span className={`rounded px-2 py-1 text-xs font-semibold ${verdictClass(feedback.human_verdict)}`}>
                       {feedback.human_verdict}
                     </span>
                   </p>
-                  {feedback.disagreement_type && <p>Disagreement Type: {feedback.disagreement_type}</p>}
+                  {feedback.disagreement_type && (
+                    <p>
+                      {t("history_detail.disagreement_label")}: {feedback.disagreement_type}
+                    </p>
+                  )}
                   {feedback.human_notes ? (
                     <blockquote className="rounded-md border border-navy-700 bg-slate-950/70 px-3 py-2 text-slate-300">
                       {feedback.human_notes}
                     </blockquote>
                   ) : null}
-                  <p className="text-xs text-slate-400">Submitted at: {formatTimestamp(feedback.submitted_at)}</p>
+                  <p className="text-xs text-slate-400">
+                    {t("history_detail.submitted_label")}: {formatTimestamp(feedback.submitted_at)}
+                  </p>
                 </div>
               )}
             </div>

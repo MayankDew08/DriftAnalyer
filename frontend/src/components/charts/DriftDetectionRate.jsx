@@ -1,6 +1,7 @@
+import { useTranslation } from "react-i18next";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-function CustomTooltip({ active, payload }) {
+function CustomTooltip({ active, payload, t }) {
   if (!active || !payload || payload.length === 0) return null;
 
   const point = payload[0]?.payload;
@@ -8,7 +9,7 @@ function CustomTooltip({ active, payload }) {
 
   return (
     <div className="rounded-md border border-navy-700 bg-navy-900 px-3 py-2 text-xs text-slate-100 shadow-lg">
-      {point.name} - {point.count} inputs
+      {t("charts.detection_tooltip", { name: point.name, count: point.count })}
     </div>
   );
 }
@@ -31,20 +32,24 @@ function CenterLabel({ viewBox, driftCount, total }) {
 }
 
 export default function DriftDetectionRate({ data, total }) {
+  const { t } = useTranslation();
+
   if (!data || total === 0) {
     return (
       <div>
-        <h3 className="mb-3 text-sm font-semibold text-slate-100">Drift Detection Rate</h3>
-        <div className="flex h-[220px] items-center justify-center text-sm text-slate-400">No data yet</div>
+        <h3 className="mb-3 text-sm font-semibold text-slate-100">{t("charts.detection_title")}</h3>
+        <div className="flex h-[220px] items-center justify-center text-sm text-slate-400">
+          {t("charts.detection_no_data")}
+        </div>
       </div>
     );
   }
 
-  const driftCount = data.find((item) => item.name === "Drift Detected")?.count || 0;
+  const driftCount = data[0]?.count || 0;
 
   return (
     <div>
-      <h3 className="mb-3 text-sm font-semibold text-slate-100">Drift Detection Rate</h3>
+      <h3 className="mb-3 text-sm font-semibold text-slate-100">{t("charts.detection_title")}</h3>
       <div className="h-[220px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -66,16 +71,16 @@ export default function DriftDetectionRate({ data, total }) {
                 <Cell key={item.name} fill={item.color} />
               ))}
             </Pie>
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip t={t} />} />
           </PieChart>
         </ResponsiveContainer>
       </div>
       <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
-        {data.map((item) => (
+        {data.map((item, idx) => (
           <div key={item.name} className="flex items-center gap-2 text-xs text-slate-300">
             <span
               className={`inline-block h-2.5 w-2.5 rounded-full ${
-                item.name === "Drift Detected" ? "bg-severity-high" : "bg-severity-none"
+                idx === 0 ? "bg-severity-high" : "bg-severity-none"
               }`}
             />
             <span>

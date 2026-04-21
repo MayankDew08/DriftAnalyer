@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import StatusBadge from "./StatusBadge";
 import CategoryFrequency from "./charts/CategoryFrequency";
 import DriftDetectionRate from "./charts/DriftDetectionRate";
@@ -42,13 +43,6 @@ function scoreColor(score) {
   if (score <= 0.2) return "bg-severity-none";
   if (score <= 0.5) return "bg-severity-medium";
   return "bg-severity-high";
-}
-
-function feedbackLabel(feedback) {
-  if (!feedback) return { text: "No feedback yet", className: "text-slate-400" };
-  if (feedback.human_verdict === "Yes") return { text: "Feedback: Yes ✓", className: "text-severity-none" };
-  if (feedback.human_verdict === "No") return { text: "Feedback: No ✗", className: "text-severity-high" };
-  return { text: "Feedback: Partially ~", className: "text-severity-medium" };
 }
 
 function buildCategoryFrequency(history) {
@@ -114,6 +108,7 @@ function buildSeverityBreakdown(history) {
 }
 
 export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }) {
+  const { t } = useTranslation();
   const sortedHistory = [...history].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
   const withDriftCount = history.filter((entry) => entry.analysis?.drift_detected).length;
   const withFeedbackCount = history.filter((entry) => entry.feedback !== null).length;
@@ -133,13 +128,32 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
   const driftDetectedCount = history.filter((entry) => entry.analysis?.drift_detected === true).length;
   const noDriftCount = history.length - driftDetectedCount;
   const detectionRateData = [
-    { name: "Drift Detected", count: driftDetectedCount, color: "#EF4444" },
-    { name: "No Drift (Aligned)", count: noDriftCount, color: "#10B981" },
+    { name: t("charts.detection_drift"), count: driftDetectedCount, color: "#EF4444" },
+    { name: t("charts.detection_clean"), count: noDriftCount, color: "#10B981" },
   ];
 
   function handleTimelineSelect(id) {
     const entry = history.find((item) => item.id === id);
     if (entry) onSelectEntry(entry);
+  }
+
+  function feedbackLabel(feedback) {
+    if (!feedback) return { text: t("history_panel.no_feedback"), className: "text-slate-400" };
+    if (feedback.human_verdict === "Yes") return { text: t("history_panel.feedback_yes"), className: "text-severity-none" };
+    if (feedback.human_verdict === "No") return { text: t("history_panel.feedback_no"), className: "text-severity-high" };
+    return { text: t("history_panel.feedback_partially"), className: "text-severity-medium" };
+  }
+
+  function translateCategoryName(name) {
+    const map = {
+      "Scope Violation": t("history_detail.category_scope"),
+      "Constraint Violation": t("history_detail.category_constraint"),
+      "Priority Misalignment": t("history_detail.category_priority"),
+      "Intent Drift": t("history_detail.category_intent"),
+      "Internal Inconsistency": t("history_detail.category_inconsistency"),
+    };
+
+    return map[name] || name;
   }
 
   return (
@@ -159,9 +173,9 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
       >
         <div className="mb-4 flex items-start justify-between gap-3 border-b border-navy-700 pb-4">
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-200">Analysis History</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-200">{t("history_panel.title")}</h2>
             <p className="mt-1 text-xs text-slate-400">
-              {history.length} analyses • {withDriftCount} with drift • {withFeedbackCount} with feedback
+              {t("history_panel.stats_total", { count: history.length })} • {t("history_panel.stats_drift", { count: withDriftCount })} • {t("history_panel.stats_feedback", { count: withFeedbackCount })}
             </p>
           </div>
           <button
@@ -169,7 +183,7 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
             onClick={onClose}
             className="rounded-md border border-navy-700 px-2 py-1 text-sm text-slate-300 hover:border-slate-500"
           >
-            ✕ Close
+            ✕ {t("history_panel.close")}
           </button>
         </div>
 
@@ -192,7 +206,7 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
 
           <section className="border-t border-navy-700 pt-4">
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
-              Records (sorted newest first)
+              {t("history_panel.records_title")}
             </h3>
             <div className="space-y-3">
               {sortedHistory.map((entry) => {
@@ -200,7 +214,7 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
                 const score = Number(analysis.overall_drift_score || 0);
                 const detected = (analysis.drift_categories || [])
                   .filter((item) => item.detected)
-                  .map((item) => CATEGORY_SHORT[item.category] || item.category);
+                  .map((item) => translateCategoryName(item.category));
                 const feedback = feedbackLabel(entry.feedback);
 
                 return (
@@ -214,7 +228,9 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
                         <span className={`inline-block h-2.5 w-2.5 rounded-full ${scoreColor(score)}`} />
                         {formatTimestamp(entry.timestamp)}
                       </p>
-                      <p className="text-sm text-slate-100">Score: {score.toFixed(2)}</p>
+                      <p className="text-sm text-slate-100">
+                        {t("charts.tooltip_score", { score: score.toFixed(2) })}
+                      </p>
                     </div>
 
                     <div className="mt-2">
@@ -222,7 +238,9 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
                     </div>
 
                     <p className="mt-2 text-sm text-slate-300">
-                      {detected.length > 0 ? `Drift in: ${detected.join(", ")}` : "No drift detected"}
+                      {detected.length > 0
+                        ? t("history_panel.drift_in", { categories: detected.join(", ") })
+                        : t("history_panel.no_drift_detected")}
                     </p>
 
                     <div className="mt-2 flex items-center justify-between gap-3">
@@ -235,7 +253,7 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
                           onSelectEntry(entry);
                         }}
                       >
-                        View Full Record →
+                        {t("history_panel.view_record")}
                       </button>
                     </div>
                   </article>
@@ -244,7 +262,7 @@ export default function HistoryPanel({ isOpen, history, onClose, onSelectEntry }
 
               {sortedHistory.length === 0 && (
                 <p className="rounded-lg border border-navy-700 bg-navy-900 p-4 text-sm text-slate-400">
-                  No analyses found yet.
+                  {t("history_panel.no_data")}
                 </p>
               )}
             </div>

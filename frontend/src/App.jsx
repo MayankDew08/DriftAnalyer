@@ -1,13 +1,16 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { checkHealth } from "./api/client";
 import DriftReport from "./components/DriftReport";
 import HistoryDetailModal from "./components/HistoryDetailModal";
 import HistoryPanel from "./components/HistoryPanel";
 import HumanConfirmation from "./components/HumanConfirmation";
 import InputPanel from "./components/InputPanel";
+import LanguageToggle from "./components/LanguageToggle";
 import useDriftAnalyzer from "./hooks/useDriftAnalyzer";
 
 export default function App() {
+  const { t } = useTranslation();
   const {
     strategyRaw,
     implementationRaw,
@@ -58,8 +61,8 @@ export default function App() {
       <header className="border-b border-navy-700 px-6 py-4">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold">Drift Analyzer</h1>
-            <p className="text-xs text-slate-400">UtenaOS</p>
+            <h1 className="text-xl font-semibold">{t("header.title")}</h1>
+            <p className="text-xs text-slate-400">{t("header.subtitle")}</p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -69,15 +72,16 @@ export default function App() {
                   backendHealthy ? "bg-severity-none" : "bg-severity-high"
                 }`}
               />
-              {backendHealthy ? "Backend healthy" : "Backend down"}
+              {backendHealthy ? t("header.health_ok") : t("header.health_fail")}
             </div>
             <button
               type="button"
               onClick={toggleHistory}
               className="rounded-md border border-navy-700 px-3 py-1.5 text-sm font-medium text-slate-200 transition hover:border-slate-500"
             >
-              History
+              {t("header.history_button")}
             </button>
+            <LanguageToggle />
           </div>
         </div>
       </header>

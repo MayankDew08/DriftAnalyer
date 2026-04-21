@@ -1,16 +1,20 @@
+import { useTranslation } from "react-i18next";
+
 function getScoreColor(score) {
   if (score <= 0.2) return "#10B981";
   if (score <= 0.5) return "#F59E0B";
   return "#EF4444";
 }
 
-function getScoreLabel(score) {
-  if (score <= 0.2) return "Aligned";
-  if (score <= 0.5) return "Minor Drift";
-  return "Significant Drift";
-}
-
 export default function ScoreBar({ score }) {
+  const { t } = useTranslation();
+
+  function getScoreLabel(value) {
+    if (value <= 0.2) return t("drift_report.score_aligned");
+    if (value <= 0.5) return t("drift_report.score_minor");
+    return t("drift_report.score_significant");
+  }
+
   const safeScore = Number.isFinite(score) ? Math.min(1, Math.max(0, score)) : 0;
   const percent = Math.round(safeScore * 100);
   const label = getScoreLabel(safeScore);

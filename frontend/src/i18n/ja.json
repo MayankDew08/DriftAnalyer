@@ -1,9 +1,148 @@
 {
+  "header": {
+    "title": "ドリフト分析ツール",
+    "subtitle": "UtenaOS",
+    "health_ok": "バックエンド接続済み",
+    "health_fail": "バックエンドに接続できません",
+    "history_button": "履歴"
+  },
+
+  "input_panel": {
+    "strategy_label": "戦略アウトプット",
+    "strategy_placeholder": "戦略のアウトプットをここに貼り付けてください。\n\n期待されるフォーマット:\nIntent: ...\nScope: ...\nPriorities:\n  1. ...\n  2. ...\nConstraints:\n  - ...\n  - ...",
+    "strategy_hint": "Intent、Scope、Priorities、Constraintsのラベルを含めてください。",
+    "implementation_label": "実装アウトプット",
+    "implementation_placeholder": "実装のアウトプットをここに貼り付けてください。\n\n期待されるフォーマット:\nContent: ...\nExplanation: ...",
+    "implementation_hint": "ContentとExplanationのラベルを含めてください。",
+    "analyze_button": "分析する",
+    "analyzing_button": "分析中...",
+    "clear_button": "クリア",
+    "error_format": "入力フォーマットエラー — 正しいラベルが含まれているか確認してください。",
+    "error_server": "分析に失敗しました。ドリフトエンジンでエラーが発生しました。",
+    "error_network": "バックエンドに接続できません。サーバーが起動しているか確認してください。",
+    "error_unknown": "問題が発生しました。もう一度お試しください。"
+  },
+
+  "drift_report": {
+    "title": "ドリフト分析結果",
+    "empty_title": "まだ分析がありません",
+    "empty_subtitle": "入力欄にテキストを貼り付けて「分析する」をクリックしてください",
+    "loading": "ドリフト分析を実行中...",
+    "score_label": "総合ドリフトスコア",
+    "score_aligned": "整合",
+    "score_minor": "軽微なドリフト",
+    "score_significant": "重大なドリフト",
+    "summary_label": "サマリー",
+    "detected_count": "5カテゴリ中{{count}}件のドリフトを検出"
+  },
+
+  "drift_card": {
+    "severity_high": "高",
+    "severity_medium": "中",
+    "severity_low": "低",
+    "severity_none": "なし",
+    "reason_label": "理由",
+    "evidence_label": "証拠",
+    "no_evidence": "ドリフトの証拠はありません。",
+    "expand": "詳細を表示",
+    "collapse": "詳細を隠す"
+  },
+
+  "status_badge": {
+    "accept": "承認",
+    "revise_impl": "修正 → 実装",
+    "revise_strategy": "修正 → 戦略"
+  },
+
+  "human_confirmation": {
+    "title": "人間によるレビュー",
+    "question": "この分析はあなたの判断と一致していますか？",
+    "verdict_yes": "はい",
+    "verdict_no": "いいえ",
+    "verdict_partially": "一部一致",
+    "notes_label": "機械が見逃したことは何ですか？",
+    "notes_placeholder": "機械が誤った点や見逃した点を説明してください...",
+    "disagreement_label": "不一致の種類",
+    "false_positive": "誤検知（偽陽性）",
+    "false_negative": "検出漏れ（偽陰性）",
+    "wrong_category": "カテゴリの誤り",
+    "submit_button": "フィードバックを送信",
+    "submitting_button": "送信中...",
+    "success_title": "フィードバックを記録しました。ありがとうございます。",
+    "success_id": "分析ID: {{id}}",
+    "empty_state": "先に分析を実行してください",
+    "error_404": "フィードバックを送信できません — 分析セッションが期限切れです。",
+    "error_unknown": "問題が発生しました。もう一度お試しください。",
+    "requires_disagreement": "不一致の種類を選択してください。"
+  },
+
+  "history_panel": {
+    "title": "分析履歴",
+    "close": "閉じる",
+    "stats_total": "{{count}}件の分析",
+    "stats_drift": "{{count}}件にドリフトあり",
+    "stats_feedback": "{{count}}件にフィードバックあり",
+    "records_title": "記録",
+    "no_feedback": "フィードバックなし",
+    "feedback_yes": "フィードバック: はい ✓",
+    "feedback_no": "フィードバック: いいえ ✗",
+    "feedback_partially": "フィードバック: 一部一致 ~",
+    "view_record": "全記録を表示 →",
+    "no_drift_detected": "ドリフト未検出",
+    "drift_in": "ドリフト: {{categories}}",
+    "not_enough_data": "データが不足しています",
+    "no_data": "データがありません",
+    "no_drift_yet": "ドリフトはまだ検出されていません"
+  },
+
   "charts": {
+    "timeline_title": "時系列ドリフトスコア",
+    "category_title": "最も頻繁なドリフトカテゴリ",
+    "severity_title": "重大度の分布",
     "detection_title": "ドリフト検出率",
+    "tooltip_score": "スコア: {{score}}",
+    "tooltip_detected": "{{count}}回検出",
+    "tooltip_flags": "{{severity}} — {{count}}件",
     "detection_drift": "ドリフト検出",
     "detection_clean": "ドリフトなし（整合）",
     "detection_tooltip": "{{name}} — {{count}}件の入力",
+    "total_flags": "総フラグ数",
+    "aligned_label": "整合",
+    "significant_label": "重大",
+    "not_enough_data": "データが不足しています",
+    "no_data": "データがありません",
+    "no_drift_yet": "ドリフトはまだ検出されていません",
     "detection_no_data": "データがありません"
+  },
+
+  "history_detail": {
+    "title": "分析記録",
+    "id_label": "ID: {{id}}",
+    "strategy_section": "戦略インプット",
+    "intent_label": "意図",
+    "scope_label": "スコープ",
+    "priorities_label": "優先順位",
+    "constraints_label": "制約",
+    "implementation_section": "実装インプット",
+    "content_label": "コンテンツ",
+    "explanation_label": "説明",
+    "analysis_section": "ドリフト分析",
+    "feedback_section": "人間のフィードバック",
+    "no_feedback": "この分析にフィードバックはありません。",
+    "verdict_label": "判定",
+    "disagreement_label": "不一致の種類",
+    "notes_label": "メモ",
+    "submitted_label": "送信日時",
+    "close": "閉じる",
+    "category_scope": "スコープ違反",
+    "category_constraint": "制約違反",
+    "category_priority": "優先順位のずれ",
+    "category_intent": "意図のドリフト",
+    "category_inconsistency": "内部矛盾",
+    "llm_language_note": "※ 分析内容はAIが英語で生成しています"
+  },
+
+  "language_toggle": {
+    "label": "言語"
   }
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const SEVERITY_STYLES = {
   High: {
@@ -19,7 +20,15 @@ const SEVERITY_STYLES = {
   },
 };
 
+const severityKeyMap = {
+  High: "drift_card.severity_high",
+  Medium: "drift_card.severity_medium",
+  Low: "drift_card.severity_low",
+  None: "drift_card.severity_none",
+};
+
 export default function DriftCard({ category }) {
+  const { t } = useTranslation();
   const isDetected = Boolean(category?.detected);
   const [expanded, setExpanded] = useState(isDetected);
 
@@ -39,12 +48,14 @@ export default function DriftCard({ category }) {
           className="flex w-full items-center justify-between text-left"
         >
           <span className="font-medium">{category.category}</span>
-          <span className="text-sm">{expanded ? "▾" : "▸"} ✓</span>
+          <span className="text-sm">{expanded ? t("drift_card.collapse") : t("drift_card.expand")}</span>
         </button>
 
         {expanded && (
           <div className="mt-3 space-y-2 text-sm">
+            <p className="text-xs uppercase tracking-widest text-slate-400">{t("drift_card.reason_label")}</p>
             <p>{category.reason}</p>
+            <p className="text-xs uppercase tracking-widest text-slate-400">{t("drift_card.evidence_label")}</p>
             <p className="rounded-md border border-navy-700 bg-navy-900 px-3 py-2 font-mono text-xs">
               {category.evidence}
             </p>
@@ -58,9 +69,13 @@ export default function DriftCard({ category }) {
     <div className={`rounded-lg border border-navy-700 border-l-4 bg-navy-900 p-4 ${severityStyle.border}`}>
       <div className="mb-2 flex items-start justify-between gap-3">
         <h4 className="font-semibold text-slate-50">{category.category}</h4>
-        <span className={`rounded px-2 py-1 text-xs font-bold ${severityStyle.badge}`}>{severity}</span>
+        <span className={`rounded px-2 py-1 text-xs font-bold ${severityStyle.badge}`}>
+          {t(severityKeyMap[severity] || "drift_card.severity_none")}
+        </span>
       </div>
+      <p className="text-xs uppercase tracking-widest text-slate-400">{t("drift_card.reason_label")}</p>
       <p className="mb-3 text-sm text-slate-300">{category.reason}</p>
+      <p className="mb-1 text-xs uppercase tracking-widest text-slate-400">{t("drift_card.evidence_label")}</p>
       <blockquote className="rounded-md border border-navy-700 bg-slate-950/70 px-3 py-2 font-mono text-xs text-slate-300">
         {category.evidence}
       </blockquote>
