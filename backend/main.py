@@ -11,6 +11,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
+ALLOWED_ORIGINS = [
+    "https://drift-analyer.vercel.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 # ─────────────────────────────────────────
 # CORS
 # Allow frontend (React) to call the backend
@@ -18,7 +24,8 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://drift-analyer.vercel.app/"],   # Tighten this after deployment
+    # Origin values must be exact and should not include a trailing slash.
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]

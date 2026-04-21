@@ -1,4 +1,12 @@
 const DEFAULT_ERROR = "Something went wrong. Please try again.";
+const DEFAULT_PROD_API_BASE_URL = "https://driftanalyer.onrender.com";
+
+const envApiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").trim().replace(/\/$/, "");
+const isVercelHost =
+  typeof window !== "undefined" && window.location.hostname.endsWith("vercel.app");
+
+// In production on Vercel, fall back to the deployed backend if env var is missing.
+const API_BASE_URL = envApiBaseUrl || (isVercelHost ? DEFAULT_PROD_API_BASE_URL : "");
 
 function mapError(status) {
   if (status === 422) {
@@ -15,7 +23,7 @@ function mapError(status) {
 
 async function request(path, options = {}) {
   try {
-    const response = await fetch(path, options);
+    const response = await fetch(`${API_BASE_URL}${path}`, options);
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
@@ -35,7 +43,7 @@ async function request(path, options = {}) {
 }
 
 export function analyzeInputs(strategyRaw, implementationRaw) {
-  return request("/api/analyze", {
+  return request("/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -46,7 +54,7 @@ export function analyzeInputs(strategyRaw, implementationRaw) {
 }
 
 export function submitFeedback(analysisId, verdict, notes, disagreementType) {
-  return request("/api/feedback", {
+  return request("/feedback", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -59,13 +67,13 @@ export function submitFeedback(analysisId, verdict, notes, disagreementType) {
 }
 
 export function fetchHistory() {
-  return request("/api/history");
+  return request("/history");
 }
 
 export function fetchDisagreements() {
-  return request("/api/feedback/disagreements");
+  return request("/feedback/disagreements");
 }
 
 export function checkHealth() {
-  return request("/api/health");
+  return request("/health");
 }

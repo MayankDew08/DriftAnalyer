@@ -5,10 +5,21 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": {
+      "/analyze": {
         target: "https://driftanalyer.onrender.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      "/feedback": {
+        target: "https://driftanalyer.onrender.com",
+        changeOrigin: true,
+      },
+      "/history": {
+        target: "https://driftanalyer.onrender.com",
+        changeOrigin: true,
+      },
+      "/health": {
+        target: "https://driftanalyer.onrender.com",
+        changeOrigin: true,
       },
     },
   },
