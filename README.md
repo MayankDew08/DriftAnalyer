@@ -7,6 +7,10 @@ A human-directed reliability prototype that checks whether an Implementation out
 - Frontend: https://drift-analyer.vercel.app/
 - Backend: https://driftanalyer.onrender.com/
 
+## Demo Video
+
+Watch the project demo here: [Screencast From 2026-04-21 18-49-20.mp4](Screencast%20From%202026-04-21%2018-49-20.mp4)
+
 ## What This Project Does
 
 The system compares two labeled text blocks:
