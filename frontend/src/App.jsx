@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { checkHealth } from "./api/client";
 import DriftReport from "./components/DriftReport";
+import HistoryDetailModal from "./components/HistoryDetailModal";
 import HistoryPanel from "./components/HistoryPanel";
 import HumanConfirmation from "./components/HumanConfirmation";
 import InputPanel from "./components/InputPanel";
@@ -19,6 +20,7 @@ export default function App() {
     isSubmittingFeedback,
     history,
     isHistoryOpen,
+    selectedEntry,
     backendHealthy,
     setBackendHealthy,
     setAnalyzeError,
@@ -30,6 +32,8 @@ export default function App() {
     loadHistory,
     toggleHistory,
     clearAll,
+    selectEntry,
+    closeEntryDetail,
   } = useDriftAnalyzer();
 
   useEffect(() => {
@@ -109,7 +113,13 @@ export default function App() {
         </div>
       </main>
 
-      <HistoryPanel isOpen={isHistoryOpen} history={history} onClose={toggleHistory} />
+      <HistoryPanel
+        isOpen={isHistoryOpen}
+        history={history}
+        onClose={toggleHistory}
+        onSelectEntry={selectEntry}
+      />
+      <HistoryDetailModal entry={selectedEntry} onClose={closeEntryDetail} />
     </div>
   );
 }

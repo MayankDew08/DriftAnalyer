@@ -1,0 +1,9 @@
+{
+  "charts": {
+    "detection_title": "ドリフト検出率",
+    "detection_drift": "ドリフト検出",
+    "detection_clean": "ドリフトなし（整合）",
+    "detection_tooltip": "{{name}} — {{count}}件の入力",
+    "detection_no_data": "データがありません"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "charts": {
+    "detection_title": "Drift Detection Rate",
+    "detection_drift": "Drift Detected",
+    "detection_clean": "No Drift (Aligned)",
+    "detection_tooltip": "{{name}} — {{count}} inputs",
+    "detection_no_data": "No data yet"
+  }
+}

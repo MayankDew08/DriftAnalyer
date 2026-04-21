@@ -15,6 +15,7 @@ export default function useDriftAnalyzer() {
   const [history, setHistory] = useState([]);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [backendHealthy, setBackendHealthy] = useState(false);
+  const [selectedEntry, setSelectedEntry] = useState(null);
 
   async function runAnalysis() {
     setAnalyzeError(null);
@@ -84,6 +85,15 @@ export default function useDriftAnalyzer() {
     setFeedbackSubmitted(false);
     setFeedbackError(null);
     setIsSubmittingFeedback(false);
+    setSelectedEntry(null);
+  }
+
+  function selectEntry(entry) {
+    setSelectedEntry(entry);
+  }
+
+  function closeEntryDetail() {
+    setSelectedEntry(null);
   }
 
   return {
@@ -98,6 +108,7 @@ export default function useDriftAnalyzer() {
     isSubmittingFeedback,
     history,
     isHistoryOpen,
+    selectedEntry,
     backendHealthy,
     setBackendHealthy,
     setAnalyzeError,
@@ -109,5 +120,7 @@ export default function useDriftAnalyzer() {
     loadHistory,
     toggleHistory,
     clearAll,
+    selectEntry,
+    closeEntryDetail,
   };
 }
