@@ -18,7 +18,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # Tighten this after deployment
+    allow_origins=["https://drift-analyer.vercel.app/"],   # Tighten this after deployment
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
